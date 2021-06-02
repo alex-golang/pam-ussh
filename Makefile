@@ -1,8 +1,8 @@
 MODULE := pam_ussh
-NEED_SYMLINK := $(shell if ! stat -q .go/src/pam-ussh 2>&1 > /dev/null ; then echo "yes" ; fi)
+NEED_SYMLINK := $(shell if ! stat --terse .go/src/pam-ussh 2>&1 > /dev/null ; then echo "yes" ; fi)
 
 module: test
-	GOPATH=${PWD}/.go go build -buildmode=c-shared -o ${MODULE}.so
+	GOPATH=${PWD}/.go go build -buildmode=c-shared -o ${MODULE}.so pam.go pam_c.go pam_linux.go pam_ussh.go pam_ussh_test.go
 
 test: *.go .go/src
 	GOPATH=${PWD}/.go go test -cover
